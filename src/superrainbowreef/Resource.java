@@ -14,6 +14,7 @@ public class Resource {
         Resource.resources = new HashMap<>();
         try {
             Resource.resources.put("katch", read(SSR.class.getClassLoader().getResource("katch.gif")));
+            Resource.resources.put("pop", read(SSR.class.getClassLoader().getResource("pop.gif")));
 
         } catch (IOException e) {
             e.printStackTrace();
