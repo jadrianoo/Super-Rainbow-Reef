@@ -66,37 +66,15 @@ public class SSR extends JPanel implements Runnable {
                 GameConstants.GAME_SCREEN_HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
 
+        gameObjects = new ArrayList<>();
         unmoveables = new ArrayList<>();
         walls = new ArrayList<>();
         solidBlocks = new ArrayList<>();
         coralBlocks = new ArrayList<>();
         powerUps = new ArrayList<>();
         bigLegs = new ArrayList<>();
-        BufferedImage katchimg = null;
-        BufferedImage popimg = null;
-        BufferedImage unBreakWall = null;
-        BufferedImage solidW = null;
-        BufferedImage redBlock = null;
-        BufferedImage blueBlock = null;
-        BufferedImage yellowBlock = null;
-        BufferedImage greenBlock = null;
-        BufferedImage purpleBlock = null;
-        BufferedImage lifeBlock = null;
-        BufferedImage bigLegSmall = null;
+
         try{
-            katchimg = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("katch.gif")));
-            popimg = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("pop.gif")));
-            unBreakWall = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Wall.gif")));
-            solidW = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Block_solid.gif")));
-            redBlock = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Block3.gif")));
-            blueBlock = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Block6.gif")));
-            yellowBlock = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Block2.gif")));
-            greenBlock = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Block4.gif")));
-            purpleBlock = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Block1.gif")));
-            lifeBlock = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Block_life.gif")));
-            bigLegSmall = read(Objects.requireNonNull(SSR.class.getClassLoader().getResource("Bigleg_small.gif")));
-
-
             InputStreamReader isr = new InputStreamReader(SSR.class.getClassLoader().getResourceAsStream("maps/map1"));
             BufferedReader mapReader = new BufferedReader(isr);
 
@@ -111,31 +89,31 @@ public class SSR extends JPanel implements Runnable {
                 for(int curCol = 0; curCol < numCols; curCol++){
                     switch(mapInfo[curCol]){
                         case "9":
-                            this.walls.add(new Wall(curCol*19, curRow*19, unBreakWall ));
+                            this.walls.add(new Wall(curCol*19, curRow*19, Resource.getResourceImage("wall")));
                             break;
                         case "1":
-                            this.solidBlocks.add(new SolidBlocks(curCol*19, curRow*19, solidW ));
+                            this.solidBlocks.add(new SolidBlocks(curCol*19, curRow*19, Resource.getResourceImage("solidW")));
                             break;
                         case "2":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, redBlock ));
+                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("redBlock")));
                             break;
                         case "3":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, blueBlock ));
+                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("blueBlock")));
                             break;
                         case "5":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, yellowBlock ));
+                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("yellowBlock") ));
                             break;
                         case "6":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, greenBlock ));
+                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("greenBlock")));
                             break;
                         case "7":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, purpleBlock ));
+                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("purpleBlock")));
                             break;
                         case "8":
-                            this.powerUps.add(new PowerUps(curCol*19, curRow*19, lifeBlock));
+                            this.powerUps.add(new PowerUps(curCol*19, curRow*19, Resource.getResourceImage("lifeBlock")));
                             break;
                         case "10":
-                            this.bigLegs.add(new BigLegs(curCol*19, curRow*19, bigLegSmall ));
+                            this.bigLegs.add(new BigLegs(curCol*19, curRow*19, Resource.getResourceImage("bigLegSmall")));
                     }
                 }
             }
@@ -148,8 +126,8 @@ public class SSR extends JPanel implements Runnable {
 //        Katch katch = new Katch(175, 180, Resource.getResourceImage("katch"));
 
 //        this.gameObjects.add(katch);
-        katch = new Katch(275,400, katchimg);
-        pop = new Pop(300, 330, popimg);
+        katch = new Katch(275,400, Resource.getResourceImage("katch"));
+        pop = new Pop(300, 330, Resource.getResourceImage("pop"));
 
         this.setBackground(Color.BLACK);
     }
