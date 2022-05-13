@@ -98,31 +98,31 @@ public class SRR extends JPanel implements Runnable {
                 for (int curCol = 0; curCol < numCols; curCol++) {
                     switch (mapInfo[curCol]) {
                         case "9":
-                            this.walls.add(new Wall(curCol * 19, curRow * 19, Resource.getResourceImage("wall")));
+                            this.walls.add(new Wall(curCol * 20, curRow * 20, Resource.getResourceImage("wall")));
                             break;
                         case "1":
-                            this.solidBlocks.add(new SolidBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("solidW")));
+                            this.solidBlocks.add(new SolidBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("solidW")));
                             break;
                         case "2":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("redBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("redBlock")));
                             break;
                         case "3":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("blueBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("blueBlock")));
                             break;
                         case "5":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("yellowBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("yellowBlock")));
                             break;
                         case "6":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("greenBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("greenBlock")));
                             break;
                         case "7":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("purpleBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("purpleBlock")));
                             break;
                         case "8":
-                            this.powerUps.add(new PowerUps(curCol * 19, curRow * 19, Resource.getResourceImage("lifeBlock")));
+                            this.powerUps.add(new PowerUps(curCol * 20, curRow * 20, Resource.getResourceImage("lifeBlock")));
                             break;
                         case "10":
-                            this.bigLegs.add(new BigLegs(curCol * 19, curRow * 19, Resource.getResourceImage("bigLegSmall")));
+                            this.bigLegs.add(new BigLegs(curCol * 20, curRow * 19, Resource.getResourceImage("bigLegSmall")));
                     }
                 }
             }
