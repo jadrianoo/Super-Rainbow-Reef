@@ -12,22 +12,22 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Pop extends GameObject{
-    public int x,y;
+    public int x,y,spawnY;
     public double vx, vy, xSpeed, ySpeed;
     public int moveX, moveY;
     public Rectangle hitBox;
     private BufferedImage img;
     private SRR ref;
     private Katch katch;
+    
 
-    ArrayList<CoralBlocks> coralBlocks;
-
-    public Pop(SRR ref, int x, int y, BufferedImage img){
+    public Pop( SRR ref,int x, int y, BufferedImage img){
         super(x,y,img);
         this.x = x;
         this.y = y;
         moveX = 2;
         moveY = 2;
+        spawnY = y;
         this.ref = ref;
         this.img = Resource.getResourceImage("pop");
         this.hitBox = new Rectangle(x,y,this.img.getWidth(),this.img.getHeight());
@@ -50,6 +50,7 @@ public class Pop extends GameObject{
     }
 
     public void updateMove(){
+        this.x += moveX;
 
         if(this.getPopHitBox().intersects(SRR.katch.getKatchHitBox())){
             moveY *= -1;
@@ -66,20 +67,20 @@ public class Pop extends GameObject{
                 curr.isDestroyed = true;
             }
         }
-        CoralBlocks curr;
+        this.y += moveY;
 
 
 
     }
     public void collision(){
-        this.x += moveX;
 
         if(this.x > (GameConstants.GAME_SCREEN_WIDTH - 30) || this.x < 0)
             moveX *= -1;
-        if(this.y > (GameConstants.GAME_SCREEN_HEIGHT - 30) || this.y < 0)
+        if(this.y < 0)
             moveY *= -1;
+        if(this.y > (GameConstants.GAME_SCREEN_HEIGHT - 30))
+            respawn();
 
-        this.y += moveY;
         this.hitBox.setLocation(x,y);
 
 //        if(this.x < 0)
@@ -90,6 +91,11 @@ public class Pop extends GameObject{
 //            moveX = -moveX;
 
 
+    }
+    public void respawn(){
+        SRR.katch.respawn();
+        this.x = 300;
+        this.y = 330;
     }
 
 }
