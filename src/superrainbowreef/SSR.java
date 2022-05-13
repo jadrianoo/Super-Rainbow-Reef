@@ -24,18 +24,20 @@ import static javax.imageio.ImageIO.read;
 public class SSR extends JPanel implements Runnable {
     private BufferedImage world;
     private Launcher lf;
-    private Katch katch;
-    private Pop pop;
+    private static Katch katch;
+    private static Pop pop;
     static long tick = 0;
     ArrayList<GameObject> gameObjects;
-    ArrayList<Unmoveable> unmoveables;
     ArrayList<Wall> walls;
     ArrayList<SolidBlocks> solidBlocks;
     ArrayList<CoralBlocks> coralBlocks;
     ArrayList<PowerUps> powerUps;
     ArrayList<BigLegs> bigLegs;
+    Collisions cs;
 
-    public SSR(Launcher lf){this.lf = lf;}
+    public SSR(Launcher lf) {
+        this.lf = lf;
+    }
 
     @Override
     public void run() {
@@ -43,7 +45,9 @@ public class SSR extends JPanel implements Runnable {
             this.gameInitialize();
             while (true) {
                 this.tick++;
-                this.pop.update();// update tank
+//                this.pop.update();// update pop
+                this.gameObjects.forEach(gameObject -> gameObject.update());
+//                cs.coralBlockCollision(pop, coralBlocks);
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
 
@@ -61,20 +65,25 @@ public class SSR extends JPanel implements Runnable {
         }
     }
 
-    public void gameInitialize(){
+    public void gameInitialize() {
         this.world = new BufferedImage(GameConstants.GAME_SCREEN_WIDTH,
                 GameConstants.GAME_SCREEN_HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
 
         gameObjects = new ArrayList<>();
-        unmoveables = new ArrayList<>();
         walls = new ArrayList<>();
         solidBlocks = new ArrayList<>();
         coralBlocks = new ArrayList<>();
         powerUps = new ArrayList<>();
         bigLegs = new ArrayList<>();
 
-        try{
+        katch = new Katch(275, 400, Resource.getResourceImage("katch"));
+        pop = new Pop(this,300, 330, Resource.getResourceImage("pop"));
+
+        this.gameObjects.add(katch);
+        this.gameObjects.add(pop);
+
+        try {
             InputStreamReader isr = new InputStreamReader(SSR.class.getClassLoader().getResourceAsStream("maps/map1"));
             BufferedReader mapReader = new BufferedReader(isr);
 
@@ -83,37 +92,37 @@ public class SSR extends JPanel implements Runnable {
             int numCols = Integer.parseInt(mapInfo[0]);
             int numRows = Integer.parseInt(mapInfo[1]);
 
-            for(int curRow = 0; curRow < numRows; curRow++){
+            for (int curRow = 0; curRow < numRows; curRow++) {
                 row = mapReader.readLine();
                 mapInfo = row.split("\t");
-                for(int curCol = 0; curCol < numCols; curCol++){
-                    switch(mapInfo[curCol]){
+                for (int curCol = 0; curCol < numCols; curCol++) {
+                    switch (mapInfo[curCol]) {
                         case "9":
-                            this.walls.add(new Wall(curCol*19, curRow*19, Resource.getResourceImage("wall")));
+                            this.walls.add(new Wall(curCol * 19, curRow * 19, Resource.getResourceImage("wall")));
                             break;
                         case "1":
-                            this.solidBlocks.add(new SolidBlocks(curCol*19, curRow*19, Resource.getResourceImage("solidW")));
+                            this.solidBlocks.add(new SolidBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("solidW")));
                             break;
                         case "2":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("redBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("redBlock")));
                             break;
                         case "3":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("blueBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("blueBlock")));
                             break;
                         case "5":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("yellowBlock") ));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("yellowBlock")));
                             break;
                         case "6":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("greenBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("greenBlock")));
                             break;
                         case "7":
-                            this.coralBlocks.add(new CoralBlocks(curCol*19, curRow*19, Resource.getResourceImage("purpleBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 19, curRow * 19, Resource.getResourceImage("purpleBlock")));
                             break;
                         case "8":
-                            this.powerUps.add(new PowerUps(curCol*19, curRow*19, Resource.getResourceImage("lifeBlock")));
+                            this.powerUps.add(new PowerUps(curCol * 19, curRow * 19, Resource.getResourceImage("lifeBlock")));
                             break;
                         case "10":
-                            this.bigLegs.add(new BigLegs(curCol*19, curRow*19, Resource.getResourceImage("bigLegSmall")));
+                            this.bigLegs.add(new BigLegs(curCol * 19, curRow * 19, Resource.getResourceImage("bigLegSmall")));
                     }
                 }
             }
@@ -123,30 +132,31 @@ public class SSR extends JPanel implements Runnable {
             ex.printStackTrace();
         }
 
-//        Katch katch = new Katch(175, 180, Resource.getResourceImage("katch"));
-
-//        this.gameObjects.add(katch);
-        katch = new Katch(275,400, Resource.getResourceImage("katch"));
-        pop = new Pop(300, 330, Resource.getResourceImage("pop"));
-
+//        cs = new Collisions(pop, coralBlocks);
         this.setBackground(Color.BLACK);
     }
-    public void paintComponent(Graphics g){
-        Graphics2D g2 = (Graphics2D)g;
+
+    public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
         super.paintComponent(g2);
         Graphics2D buffer = world.createGraphics();
         buffer.setColor(Color.black);
-        buffer.fillRect(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+        buffer.fillRect(0, 0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+        this.gameObjects.forEach(gameObject -> gameObject.drawImage(buffer));
         this.walls.forEach(Wall -> Wall.drawImage(buffer));
-        this.solidBlocks.forEach(SolidBlocks ->SolidBlocks.drawImage(buffer));
-        this.coralBlocks.forEach(CoralBlocks ->CoralBlocks.drawImage(buffer));
-        this.powerUps.forEach(PowerUps ->PowerUps.drawImage(buffer));
-        this.bigLegs.forEach(BigLegs ->BigLegs.drawImage(buffer));
+        this.solidBlocks.forEach(SolidBlocks -> SolidBlocks.drawImage(buffer));
+        this.coralBlocks.forEach(CoralBlocks -> CoralBlocks.drawImage(buffer));
+        this.powerUps.forEach(PowerUps -> PowerUps.drawImage(buffer));
+        this.bigLegs.forEach(BigLegs -> BigLegs.drawImage(buffer));
 
-//        this.gameObjects.forEach(gameObject -> gameObject.drawImage(g));
-        this.katch.drawImage(buffer);
-        this.pop.drawImage(buffer);
 
-        g2.drawImage(world, 0,0,null);
+        g2.drawImage(world, 0, 0, null);
+    }
+
+    public ArrayList<Wall> getWalls(){
+        return this.walls;
+    }
+    public ArrayList<CoralBlocks> getCoralBlocks(){
+        return this.coralBlocks;
     }
 }

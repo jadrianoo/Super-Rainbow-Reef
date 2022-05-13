@@ -10,6 +10,7 @@ public class SolidBlocks extends Unmoveable {
     BufferedImage img;
 
     public SolidBlocks(int x, int y, BufferedImage img) {
+        super(x,y,img);
         this.x = x;
         this.y = y;
         this.img = img;

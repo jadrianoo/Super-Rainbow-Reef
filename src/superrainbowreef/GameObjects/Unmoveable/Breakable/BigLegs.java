@@ -10,6 +10,7 @@ public class BigLegs extends Unmoveable {
     BufferedImage img;
 
     public BigLegs(int x, int y, BufferedImage img) {
+        super(x,y,img);
         this.x = x;
         this.y = y;
         this.img = img;

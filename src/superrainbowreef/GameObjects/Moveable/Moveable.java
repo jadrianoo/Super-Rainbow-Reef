@@ -9,7 +9,7 @@ public class Moveable extends GameObject {
     double speed;
 
     public Moveable(BufferedImage img, int x, int y, double speed){
-
+        super(x,y,img);
     }
 
     @Override
