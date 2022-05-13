@@ -45,6 +45,7 @@ public class SRR extends JPanel implements Runnable {
                 this.tick++;
 //                this.pop.update();// update pop
                 this.gameObjects.forEach(gameObject -> gameObject.update());
+                this.coralBlocks.forEach(coralBlocks -> coralBlocks.update());
 
 //                cs.coralBlockCollision(pop, coralBlocks);
 
@@ -152,18 +153,15 @@ public class SRR extends JPanel implements Runnable {
         this.coralBlocks.forEach(CoralBlocks -> CoralBlocks.drawImage(buffer));
         this.powerUps.forEach(PowerUps -> PowerUps.drawImage(buffer));
         this.bigLegs.forEach(BigLegs -> BigLegs.drawImage(buffer));
-        
+
         g2.drawImage(world, 0, 0, null);
     }
-//    public void updateMove(){
-//        if(SSR.katch.getKatchHitBox().intersects(SSR.pop.getPopHitBox())){
-//            pop.moveY *= -1;
-//        }
-//    }
+
     public ArrayList<Wall> getWalls(){
         return this.walls;
     }
     public ArrayList<CoralBlocks> getCoralBlocks(){
         return this.coralBlocks;
     }
+    public ArrayList<BigLegs> getBigLegs(){return this.bigLegs;}
 }

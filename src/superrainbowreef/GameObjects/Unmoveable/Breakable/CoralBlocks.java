@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class CoralBlocks extends Unmoveable {
     int x,y;
+    public boolean isDestroyed;
     BufferedImage img;
     Rectangle hitBox;
 
@@ -20,9 +21,12 @@ public class CoralBlocks extends Unmoveable {
     public Rectangle getHitBox(){
         return hitBox.getBounds();
     }
+
     public void drawImage(Graphics g){
         Graphics2D g2 = (Graphics2D)g;
-        g2.drawImage(this.img, x,y,null);
+
+        if(!isDestroyed)
+            g2.drawImage(this.img, x,y,null);
     }
 
     @Override

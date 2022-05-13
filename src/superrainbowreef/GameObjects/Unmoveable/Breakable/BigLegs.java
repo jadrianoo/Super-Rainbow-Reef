@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class BigLegs extends Unmoveable {
     int x,y;
+    public boolean isDestroyed;
     BufferedImage img;
 
     public BigLegs(int x, int y, BufferedImage img) {
@@ -17,7 +18,8 @@ public class BigLegs extends Unmoveable {
     }
     public void drawImage(Graphics g){
         Graphics2D g2 = (Graphics2D)g;
-        g2.drawImage(this.img, x,y,null);
+        if(!isDestroyed)
+            g2.drawImage(this.img, x,y,null);
     }
 
     @Override

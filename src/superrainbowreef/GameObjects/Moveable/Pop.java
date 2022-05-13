@@ -2,6 +2,7 @@ package superrainbowreef.GameObjects.Moveable;
 
 import superrainbowreef.GameConstants;
 import superrainbowreef.GameObjects.GameObject;
+import superrainbowreef.GameObjects.Unmoveable.Breakable.BigLegs;
 import superrainbowreef.GameObjects.Unmoveable.Breakable.CoralBlocks;
 import superrainbowreef.Resource;
 import superrainbowreef.SRR;
@@ -14,7 +15,6 @@ public class Pop extends GameObject{
     public int x,y;
     public double vx, vy, xSpeed, ySpeed;
     public int moveX, moveY;
-    public boolean isDestroyed;
     public Rectangle hitBox;
     private BufferedImage img;
     private SRR ref;
@@ -55,10 +55,21 @@ public class Pop extends GameObject{
             moveY *= -1;
         }
         for(CoralBlocks curr : this.ref.getCoralBlocks()){
-            if(this.getPopHitBox().intersects(curr.getHitBox())){
+            if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestroyed){
                 moveY *= -1;
+                curr.isDestroyed = true;
             }
         }
+        for(BigLegs curr : this.ref.getBigLegs()){
+            if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestroyed){
+                moveY *= -1;
+                curr.isDestroyed = true;
+            }
+        }
+        CoralBlocks curr;
+
+
+
     }
     public void collision(){
         this.x += moveX;
@@ -68,6 +79,9 @@ public class Pop extends GameObject{
         if(this.y > (GameConstants.GAME_SCREEN_HEIGHT - 30) || this.y < 0)
             moveY *= -1;
 
+        this.y += moveY;
+        this.hitBox.setLocation(x,y);
+
 //        if(this.x < 0)
 //            moveX = -moveX;
 //        if(this.y < 0)
@@ -75,8 +89,7 @@ public class Pop extends GameObject{
 //        if(this.x > 600)
 //            moveX = -moveX;
 
-        this.y += moveY;
-        this.hitBox.setLocation(x,y);
+
     }
 
 }
