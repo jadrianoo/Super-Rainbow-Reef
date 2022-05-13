@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public class Moveable extends GameObject {
     double speed;
 
-    public Moveable(BufferedImage img, int x, int y, double speed){
+    public Moveable( int x, int y, BufferedImage img){
         super(x,y,img);
     }
 

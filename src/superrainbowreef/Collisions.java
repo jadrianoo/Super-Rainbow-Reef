@@ -18,9 +18,9 @@ public class Collisions {
     }
 
     public void coralBlockCollision(Pop source, ArrayList<GameObject> walls){
-        source.getGetHitBox();
+        source.getHitBox();
         for(int i = 0; i < walls.size(); i++){
-            if(source.getGetHitBox().getBounds().intersects(walls.get(i).getHitBox().getBounds())){
+            if(source.getHitBox().getBounds().intersects(walls.get(i).getHitBox().getBounds())){
                 source.moveY *= -1;
             }
         }

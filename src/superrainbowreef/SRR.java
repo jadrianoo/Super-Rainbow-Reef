@@ -8,23 +8,22 @@ import superrainbowreef.GameObjects.Unmoveable.Breakable.CoralBlocks;
 import superrainbowreef.GameObjects.Unmoveable.Breakable.PowerUps;
 import superrainbowreef.GameObjects.Unmoveable.Unbreakable.SolidBlocks;
 import superrainbowreef.GameObjects.Unmoveable.Unbreakable.Wall;
-import superrainbowreef.GameObjects.Unmoveable.Unmoveable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static javax.imageio.ImageIO.read;
 
-public class SSR extends JPanel implements Runnable {
+public class SRR extends JPanel implements Runnable {
     private BufferedImage world;
     private Launcher lf;
-    private static Katch katch;
+    public static Katch katch;
     private static Pop pop;
     static long tick = 0;
     ArrayList<GameObject> gameObjects;
@@ -33,9 +32,8 @@ public class SSR extends JPanel implements Runnable {
     ArrayList<CoralBlocks> coralBlocks;
     ArrayList<PowerUps> powerUps;
     ArrayList<BigLegs> bigLegs;
-    Collisions cs;
 
-    public SSR(Launcher lf) {
+    public SRR(Launcher lf) {
         this.lf = lf;
     }
 
@@ -47,7 +45,9 @@ public class SSR extends JPanel implements Runnable {
                 this.tick++;
 //                this.pop.update();// update pop
                 this.gameObjects.forEach(gameObject -> gameObject.update());
+
 //                cs.coralBlockCollision(pop, coralBlocks);
+
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
 
@@ -84,7 +84,7 @@ public class SSR extends JPanel implements Runnable {
         this.gameObjects.add(pop);
 
         try {
-            InputStreamReader isr = new InputStreamReader(SSR.class.getClassLoader().getResourceAsStream("maps/map1"));
+            InputStreamReader isr = new InputStreamReader(SRR.class.getClassLoader().getResourceAsStream("maps/map1"));
             BufferedReader mapReader = new BufferedReader(isr);
 
             String row = mapReader.readLine();
@@ -131,9 +131,11 @@ public class SSR extends JPanel implements Runnable {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
+        KatchControls kc = new KatchControls(katch, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
 
-//        cs = new Collisions(pop, coralBlocks);
+
         this.setBackground(Color.BLACK);
+        this.lf.getJf().addKeyListener(kc);
     }
 
     public void paintComponent(Graphics g) {
@@ -152,7 +154,11 @@ public class SSR extends JPanel implements Runnable {
 
         g2.drawImage(world, 0, 0, null);
     }
-
+//    public void updateMove(){
+//        if(SSR.katch.getKatchHitBox().intersects(SSR.pop.getPopHitBox())){
+//            pop.moveY *= -1;
+//        }
+//    }
     public ArrayList<Wall> getWalls(){
         return this.walls;
     }
