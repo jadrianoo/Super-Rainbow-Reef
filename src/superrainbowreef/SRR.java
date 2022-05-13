@@ -142,16 +142,17 @@ public class SRR extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         super.paintComponent(g2);
         Graphics2D buffer = world.createGraphics();
+        BufferedImage backgroundImg = Resource.getResourceImage("background");
         buffer.setColor(Color.black);
         buffer.fillRect(0, 0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+        buffer.drawImage(backgroundImg,0,0,null);
         this.gameObjects.forEach(gameObject -> gameObject.drawImage(buffer));
         this.walls.forEach(Wall -> Wall.drawImage(buffer));
         this.solidBlocks.forEach(SolidBlocks -> SolidBlocks.drawImage(buffer));
         this.coralBlocks.forEach(CoralBlocks -> CoralBlocks.drawImage(buffer));
         this.powerUps.forEach(PowerUps -> PowerUps.drawImage(buffer));
         this.bigLegs.forEach(BigLegs -> BigLegs.drawImage(buffer));
-
-
+        
         g2.drawImage(world, 0, 0, null);
     }
 //    public void updateMove(){
