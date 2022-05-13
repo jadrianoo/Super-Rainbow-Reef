@@ -12,14 +12,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Pop extends GameObject{
-    public int x,y,spawnY;
+    public int x,y,spawnY, spawnX;
     public double vx, vy, xSpeed, ySpeed;
     public int moveX, moveY;
     public Rectangle hitBox;
     private BufferedImage img;
     private SRR ref;
     private Katch katch;
-    
+
 
     public Pop( SRR ref,int x, int y, BufferedImage img){
         super(x,y,img);
@@ -27,7 +27,8 @@ public class Pop extends GameObject{
         this.y = y;
         moveX = 2;
         moveY = 2;
-        spawnY = y;
+        spawnY = 370;
+        spawnX = 310;
         this.ref = ref;
         this.img = Resource.getResourceImage("pop");
         this.hitBox = new Rectangle(x,y,this.img.getWidth(),this.img.getHeight());
@@ -68,9 +69,6 @@ public class Pop extends GameObject{
             }
         }
         this.y += moveY;
-
-
-
     }
     public void collision(){
 
@@ -94,8 +92,8 @@ public class Pop extends GameObject{
     }
     public void respawn(){
         SRR.katch.respawn();
-        this.x = 300;
-        this.y = 330;
+        this.x = spawnX;
+        this.y = spawnY;
     }
 
 }

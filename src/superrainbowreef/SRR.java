@@ -81,7 +81,7 @@ public class SRR extends JPanel implements Runnable {
         katch = new Katch(GameConstants.GAME_SCREEN_WIDTH / 2 - Resource.getResourceImage("katch").getWidth() / 2,
                 GameConstants.GAME_SCREEN_HEIGHT - Resource.getResourceImage("katch").getHeight() - Resource.getResourceImage("pop").getHeight(),
                 Resource.getResourceImage("katch"));
-        pop = new Pop(this,300, 330, Resource.getResourceImage("pop"));
+        pop = new Pop(this,310, 370, Resource.getResourceImage("pop"));
 
         this.gameObjects.add(katch);
         this.gameObjects.add(pop);
