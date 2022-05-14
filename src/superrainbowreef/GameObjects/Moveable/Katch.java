@@ -34,8 +34,8 @@ public class Katch extends Moveable{
     public void drawImage(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
         g2d.drawImage(this.img, x, y, null);
-        g2d.setColor(Color.CYAN);
-        g2d.drawRect(x,y,this.img.getWidth(),this.img.getHeight());
+//        g2d.setColor(Color.CYAN);
+//        g2d.drawRect(x,y,this.img.getWidth(),this.img.getHeight());
     }
 
     @Override

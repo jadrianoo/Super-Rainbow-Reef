@@ -47,7 +47,6 @@ public class SRR extends JPanel implements Runnable {
                 this.gameObjects.forEach(gameObject -> gameObject.update());
                 this.coralBlocks.forEach(coralBlocks -> coralBlocks.update());
 
-//                cs.coralBlockCollision(pop, coralBlocks);
 
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
@@ -67,16 +66,16 @@ public class SRR extends JPanel implements Runnable {
     }
 
     public void gameInitialize() {
-        this.world = new BufferedImage(GameConstants.GAME_SCREEN_WIDTH,
-                GameConstants.GAME_SCREEN_HEIGHT,
-                BufferedImage.TYPE_INT_RGB);
-
         gameObjects = new ArrayList<>();
         walls = new ArrayList<>();
         solidBlocks = new ArrayList<>();
         coralBlocks = new ArrayList<>();
         powerUps = new ArrayList<>();
         bigLegs = new ArrayList<>();
+
+        this.world = new BufferedImage(GameConstants.GAME_SCREEN_WIDTH,
+                GameConstants.GAME_SCREEN_HEIGHT,
+                BufferedImage.TYPE_INT_RGB);
 
         katch = new Katch(GameConstants.GAME_SCREEN_WIDTH / 2 - Resource.getResourceImage("katch").getWidth() / 2,
                 GameConstants.GAME_SCREEN_HEIGHT - Resource.getResourceImage("katch").getHeight() - Resource.getResourceImage("pop").getHeight(),
@@ -95,6 +94,7 @@ public class SRR extends JPanel implements Runnable {
             int numCols = Integer.parseInt(mapInfo[0]);
             int numRows = Integer.parseInt(mapInfo[1]);
 
+            // Add blocks
             for (int curRow = 0; curRow < numRows; curRow++) {
                 row = mapReader.readLine();
                 mapInfo = row.split("\t");
@@ -136,12 +136,11 @@ public class SRR extends JPanel implements Runnable {
         }
         KatchControls kc = new KatchControls(katch, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
 
-
-        this.setBackground(Color.BLACK);
         this.lf.getJf().addKeyListener(kc);
     }
 
     public void paintComponent(Graphics g) {
+
         Graphics2D g2 = (Graphics2D) g;
         super.paintComponent(g2);
         Graphics2D buffer = world.createGraphics();
@@ -149,6 +148,8 @@ public class SRR extends JPanel implements Runnable {
         buffer.setColor(Color.black);
         buffer.fillRect(0, 0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
         buffer.drawImage(backgroundImg,0,0,null);
+
+        // Map Objects
         this.gameObjects.forEach(gameObject -> gameObject.drawImage(buffer));
         this.walls.forEach(Wall -> Wall.drawImage(buffer));
         this.solidBlocks.forEach(SolidBlocks -> SolidBlocks.drawImage(buffer));
@@ -156,14 +157,23 @@ public class SRR extends JPanel implements Runnable {
         this.powerUps.forEach(PowerUps -> PowerUps.drawImage(buffer));
         this.bigLegs.forEach(BigLegs -> BigLegs.drawImage(buffer));
 
+        // Draw life
+        buffer.setColor(Color.yellow);
+        buffer.setFont(new Font("Oswald", Font.BOLD, 20));
+        buffer.drawString("Lives: " + pop.getLife(), 50, 400);
+
+        // World
         g2.drawImage(world, 0, 0, null);
+
     }
 
+    // Get Map Objects
     public ArrayList<Wall> getWalls(){
         return this.walls;
     }
     public ArrayList<CoralBlocks> getCoralBlocks(){
         return this.coralBlocks;
     }
+    public ArrayList<PowerUps> getPowerUps(){ return this.powerUps;}
     public ArrayList<BigLegs> getBigLegs(){return this.bigLegs;}
 }
