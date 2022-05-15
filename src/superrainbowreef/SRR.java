@@ -26,12 +26,16 @@ public class SRR extends JPanel implements Runnable {
     public static Katch katch;
     private static Pop pop;
     static long tick = 0;
+
     ArrayList<GameObject> gameObjects;
     ArrayList<Wall> walls;
     ArrayList<SolidBlocks> solidBlocks;
     ArrayList<CoralBlocks> coralBlocks;
     ArrayList<PowerUps> powerUps;
     ArrayList<BigLegs> bigLegs;
+
+    SoundPlayer sound = new SoundPlayer();
+    Thread thread;
 
     public SRR(Launcher lf) {
         this.lf = lf;
@@ -92,6 +96,8 @@ public class SRR extends JPanel implements Runnable {
         this.gameObjects.add(pop);
 
         try {
+            playSound(0);
+
             InputStreamReader isr = new InputStreamReader(SRR.class.getClassLoader().getResourceAsStream("maps/map1"));
             BufferedReader mapReader = new BufferedReader(isr);
 
@@ -188,4 +194,18 @@ public class SRR extends JPanel implements Runnable {
     }
     public ArrayList<PowerUps> getPowerUps(){ return this.powerUps;}
     public ArrayList<BigLegs> getBigLegs(){return this.bigLegs;}
+
+    public void playSound(int x){
+        sound.setFile(x);
+        sound.playClip();
+        sound.loopClip();
+    }
+    public void stopSound(){
+        sound.stopClip();
+    }
+    public void playEffects(int x){
+        sound.setFile(x);
+        sound.playClip();
+    }
+
 }
