@@ -16,7 +16,7 @@ public class PowerUps extends Unmoveable {
         this.x = x;
         this.y = y;
         this.img = img;
-        this.hitBox = new Rectangle(x, y, this.img.getWidth(), this.img.getHeight());
+        this.hitBox = new Rectangle(x, y, this.img.getWidth()/2, this.img.getHeight()/2);
     }
 
     public Rectangle getHitBox(){

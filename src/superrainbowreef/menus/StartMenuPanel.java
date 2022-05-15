@@ -1,6 +1,7 @@
 package superrainbowreef.menus;
 
 import superrainbowreef.Launcher;
+import superrainbowreef.Resource;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,18 +27,20 @@ public class StartMenuPanel extends JPanel {
         this.setBackground(Color.BLACK);
         this.setLayout(null);
 
-        start = new JButton("Start");
-        start.setFont(new Font("Courier New", Font.BOLD ,24));
-        start.setBounds(150,300,150,50);
+        start = new JButton(new ImageIcon(Resource.getResourceImage("start")));
+//        start.setFont(new Font("Courier New", Font.BOLD ,24));
+//        start.setBounds(0,330,150,50);
+        start.setBounds(-20,330,150,50);
+        start.setBorder(null);
         start.addActionListener((actionEvent -> {
             this.lf.setFrame("game");
         }));
 
 
-        exit = new JButton("Exit");
+        exit = new JButton(new ImageIcon(Resource.getResourceImage("end")));
         exit.setSize(new Dimension(200,100));
-        exit.setFont(new Font("Courier New", Font.BOLD ,24));
-        exit.setBounds(150,400,150,50);
+        exit.setBorder(null);
+        exit.setBounds(370,330,150,50);
         exit.addActionListener((actionEvent -> {
             this.lf.closeGame();
         }));

@@ -17,7 +17,7 @@ public class EndGamePanel extends JPanel{
     public EndGamePanel(Launcher lf) {
         this.lf = lf;
         try {
-            menuBackground = ImageIO.read(this.getClass().getClassLoader().getResource("Title.gif"));
+            menuBackground = ImageIO.read(this.getClass().getClassLoader().getResource("Congratulation.gif"));
         } catch (IOException e) {
             System.out.println("Error cant read menu background");
             e.printStackTrace();

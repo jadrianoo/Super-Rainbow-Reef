@@ -41,6 +41,7 @@ public class SRR extends JPanel implements Runnable {
     public void run() {
         try {
             this.gameInitialize();
+            this.resetGame();
             while (true) {
                 this.tick++;
 //                this.pop.update();// update pop
@@ -55,7 +56,7 @@ public class SRR extends JPanel implements Runnable {
                  * simulate an end game event
                  * we will do this with by ending the game when drawn 2000 frames have been drawn
                  */
-//                if(this.tick > 2000){
+//                if(this.pop.getLife() <= 0 || this.pop.getBigLegs() <= 0){
 //                    this.lf.setFrame("end");
 //                    return;
 //                }
@@ -63,6 +64,10 @@ public class SRR extends JPanel implements Runnable {
         } catch (InterruptedException ignored) {
             System.out.println(ignored);
         }
+    }
+
+    public void resetGame(){
+        this.tick = 0;
     }
 
     public void gameInitialize() {
@@ -80,6 +85,7 @@ public class SRR extends JPanel implements Runnable {
         katch = new Katch(GameConstants.GAME_SCREEN_WIDTH / 2 - Resource.getResourceImage("katch").getWidth() / 2,
                 GameConstants.GAME_SCREEN_HEIGHT - Resource.getResourceImage("katch").getHeight() - Resource.getResourceImage("pop").getHeight(),
                 Resource.getResourceImage("katch"));
+
         pop = new Pop(this,310, 370, Resource.getResourceImage("pop"));
 
         this.gameObjects.add(katch);
@@ -107,19 +113,19 @@ public class SRR extends JPanel implements Runnable {
                             this.solidBlocks.add(new SolidBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("solidW")));
                             break;
                         case "2":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("redBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("redBlock"), 10));
                             break;
                         case "3":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("blueBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("blueBlock"), 10));
                             break;
                         case "5":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("yellowBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("yellowBlock"), 10));
                             break;
                         case "6":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("greenBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("greenBlock"),10));
                             break;
                         case "7":
-                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("purpleBlock")));
+                            this.coralBlocks.add(new CoralBlocks(curCol * 20, curRow * 20, Resource.getResourceImage("purpleBlock"),10));
                             break;
                         case "8":
                             this.powerUps.add(new PowerUps(curCol * 20, curRow * 20, Resource.getResourceImage("lifeBlock")));
@@ -160,7 +166,12 @@ public class SRR extends JPanel implements Runnable {
         // Draw life
         buffer.setColor(Color.yellow);
         buffer.setFont(new Font("Oswald", Font.BOLD, 20));
-        buffer.drawString("Lives: " + pop.getLife(), 50, 400);
+        buffer.drawString("Lives: " + pop.getLife(), 50, 390);
+
+        // Draw Score
+        buffer.setColor(Color.yellow);
+        buffer.setFont(new Font("Oswald", Font.BOLD, 20));
+        buffer.drawString("Score: " + pop.getScore(), 50, 360);
 
         // World
         g2.drawImage(world, 0, 0, null);
@@ -171,6 +182,7 @@ public class SRR extends JPanel implements Runnable {
     public ArrayList<Wall> getWalls(){
         return this.walls;
     }
+    public ArrayList<SolidBlocks> getSolidBlocks() {return this.solidBlocks;}
     public ArrayList<CoralBlocks> getCoralBlocks(){
         return this.coralBlocks;
     }

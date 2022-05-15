@@ -34,12 +34,11 @@ public class Katch extends Moveable{
     public void drawImage(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
         g2d.drawImage(this.img, x, y, null);
-//        g2d.setColor(Color.CYAN);
-//        g2d.drawRect(x,y,this.img.getWidth(),this.img.getHeight());
     }
 
     @Override
     public void update() {
+        checkBounds();
         updateMove();
     }
 
@@ -47,14 +46,13 @@ public class Katch extends Moveable{
         this.x = spawnX;
         this.y = spawnY;
     }
-
-    public Wall getWall(){
-        Rectangle katch_hitBox = new Rectangle(x, y, width, height);
-        for(Wall curr : ref.getWalls()){
-            if(katch_hitBox.intersects(curr.getRect()))
-                return curr;
+    public void checkBounds(){
+        if (x < 30) {
+            x = 30;
         }
-        return null;
+        if (x >= GameConstants.GAME_SCREEN_WIDTH - 90) {
+            x = GameConstants.GAME_SCREEN_WIDTH - 90;
+        }
     }
 
     public void updateMove(){

@@ -5,6 +5,8 @@ import superrainbowreef.GameObjects.GameObject;
 import superrainbowreef.GameObjects.Unmoveable.Breakable.BigLegs;
 import superrainbowreef.GameObjects.Unmoveable.Breakable.CoralBlocks;
 import superrainbowreef.GameObjects.Unmoveable.Breakable.PowerUps;
+import superrainbowreef.GameObjects.Unmoveable.Unbreakable.SolidBlocks;
+import superrainbowreef.GameObjects.Unmoveable.Unbreakable.Wall;
 import superrainbowreef.Resource;
 import superrainbowreef.SRR;
 
@@ -13,15 +15,16 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Pop extends GameObject{
+
     public int x,y,spawnY, spawnX;
-    public int life = 0;
-    public double vx, vy, xSpeed, ySpeed;
+    public int score = 0;
+    public int life = 1;
+    public int bigLegs = 2;
     public int moveX, moveY;
+
     public Rectangle hitBox;
     private BufferedImage img;
     private SRR ref;
-    private Katch katch;
-
 
     public Pop( SRR ref,int x, int y, BufferedImage img){
         super(x,y,img);
@@ -33,13 +36,11 @@ public class Pop extends GameObject{
         spawnX = 310;
         this.ref = ref;
         this.img = Resource.getResourceImage("pop");
-        this.hitBox = new Rectangle(x,y,this.img.getWidth(),this.img.getHeight());
+        this.hitBox = new Rectangle(x, y, this.img.getWidth() ,this.img.getHeight());
     }
     public void drawImage(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
         g2d.drawImage(this.img, x, y, null);
-//        g2d.setColor(Color.CYAN);
-//        g2d.drawRect(x,y,this.img.getWidth(),this.img.getHeight());
     }
     public Rectangle getPopHitBox(){
         return hitBox.getBounds();
@@ -47,58 +48,49 @@ public class Pop extends GameObject{
 
     @Override
     public void update() {
-        updateMove();
         checkBounds();
+        updateMove();
     }
 
     public void updateMove(){
 
-        this.x += moveX;
-
-        if(this.getPopHitBox().intersects(SRR.katch.getKatchHitBox())){
-            moveY *= -1;
-        }
+//        if(this.getPopHitBox().intersects(SRR.katch.getKatchHitBox())){
+//            moveY *= -1;
+//        }
         for(CoralBlocks curr : this.ref.getCoralBlocks()){
             if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestroyed){
-                moveY *= -1;
-                curr.isDestroyed = true;
+                if(this.x > curr.getRecX() && this.x < curr.getRecX() + curr.getRecWidth()
+                        && this.y > curr.getRecY() && this.y < curr.getRecY() + curr.getRecHeight() && !curr.isDestroyed){
+                    score += 10;
+                    moveY = -moveY;
+                    curr.isDestroyed = true;
+                }
             }
         }
         for(PowerUps curr : this.ref.getPowerUps()){
             if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestoyed){
                 life++;
-                moveY *= -1;
+                moveY = -moveY;
                 curr.isDestoyed = true;
                 System.out.println(life);
             }
         }
         for(BigLegs curr : this.ref.getBigLegs()){
             if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestroyed){
-                moveY *= -1;
+                bigLegs--;
+                moveY = -moveY;
                 curr.isDestroyed = true;
             }
         }
-        this.y += moveY;
-    }
-    public void checkBounds(){
-
-        if(this.x > (GameConstants.GAME_SCREEN_WIDTH - 30) || this.x < 0)
-            moveX *= -1;
-        if(this.y < 0)
-            moveY *= -1;
-        if(this.y > (GameConstants.GAME_SCREEN_HEIGHT - 30)) {
-            respawn();
+        for(SolidBlocks curr : this.ref.getSolidBlocks()){
+            if(this.getPopHitBox().intersects(curr.getHitBox())){
+                if(this.x > curr.getRecX() && this.x < curr.getRecX() + curr.getRecWidth()
+                        && this.y > curr.getRecY() && this.y < curr.getRecY() + curr.getRecHeight()){
+                    moveX = -moveX;
+                }
+            }
+            moveY = -moveY;
         }
-        this.hitBox.setLocation(x,y);
-
-//        if(this.x < 0)
-//            moveX = -moveX;
-//        if(this.y < 0)
-//            moveY = -moveY;
-//        if(this.x > 600)
-//            moveX = -moveX;
-
-
     }
     public void respawn(){
         SRR.katch.respawn();
@@ -106,8 +98,26 @@ public class Pop extends GameObject{
         this.y = spawnY;
     }
 
+    public void checkBounds(){
+        this.x += moveX;
+
+        if(this.x > (GameConstants.GAME_SCREEN_WIDTH - 30) || this.x < 0)
+            moveX = -moveX;
+        if(this.y < 0 || this.getPopHitBox().intersects(SRR.katch.getKatchHitBox()))
+            moveY = -moveY;
+        if(this.y > (GameConstants.GAME_SCREEN_HEIGHT - 30)) {
+            life--;
+            respawn();
+        }
+        this.y += moveY;
+
+        this.hitBox.setLocation(x,y);
+    }
+
     public int getLife(){
         return life;
     }
+    public int getScore(){ return score;}
+    public int getBigLegs(){ return bigLegs;}
 
 }
