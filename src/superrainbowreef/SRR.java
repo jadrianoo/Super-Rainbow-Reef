@@ -34,7 +34,7 @@ public class SRR extends JPanel implements Runnable {
     ArrayList<PowerUps> powerUps;
     ArrayList<BigLegs> bigLegs;
 
-    SoundPlayer sound = new SoundPlayer();
+    static SoundPlayer sound = new SoundPlayer();
     Thread thread;
 
     public SRR(Launcher lf) {
@@ -48,11 +48,8 @@ public class SRR extends JPanel implements Runnable {
             this.resetGame();
             while (true) {
                 this.tick++;
-//                this.pop.update();// update pop
                 this.gameObjects.forEach(gameObject -> gameObject.update());
                 this.coralBlocks.forEach(coralBlocks -> coralBlocks.update());
-
-
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
 
@@ -60,10 +57,11 @@ public class SRR extends JPanel implements Runnable {
                  * simulate an end game event
                  * we will do this with by ending the game when drawn 2000 frames have been drawn
                  */
-//                if(this.pop.getLife() <= 0 || this.pop.getBigLegs() <= 0){
-//                    this.lf.setFrame("end");
-//                    return;
-//                }
+                if(this.pop.getLife() <= 0 || this.pop.getBigLegs() <= 0){
+                    stopSound();
+                    this.lf.setFrame("end");
+                    return;
+                }
             }
         } catch (InterruptedException ignored) {
             System.out.println(ignored);
@@ -96,6 +94,7 @@ public class SRR extends JPanel implements Runnable {
         this.gameObjects.add(pop);
 
         try {
+            // Play background music
             playSound(0);
 
             InputStreamReader isr = new InputStreamReader(SRR.class.getClassLoader().getResourceAsStream("maps/map1"));
@@ -195,7 +194,8 @@ public class SRR extends JPanel implements Runnable {
     public ArrayList<PowerUps> getPowerUps(){ return this.powerUps;}
     public ArrayList<BigLegs> getBigLegs(){return this.bigLegs;}
 
-    public void playSound(int x){
+    // Play Sounds
+    public static void playSound(int x){
         sound.setFile(x);
         sound.playClip();
         sound.loopClip();
@@ -203,7 +203,7 @@ public class SRR extends JPanel implements Runnable {
     public void stopSound(){
         sound.stopClip();
     }
-    public void playEffects(int x){
+    public static void playEffects(int x){
         sound.setFile(x);
         sound.playClip();
     }

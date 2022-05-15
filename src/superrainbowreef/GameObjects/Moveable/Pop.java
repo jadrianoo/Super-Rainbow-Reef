@@ -54,10 +54,9 @@ public class Pop extends GameObject{
 
     public void updateMove(){
 
-//        if(this.getPopHitBox().intersects(SRR.katch.getKatchHitBox())){
-//            moveY *= -1;
-//        }
+        // Check coral blocks
         for(CoralBlocks curr : this.ref.getCoralBlocks()){
+            // Check sides of box
             if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestroyed){
                 if(this.x > curr.getRecX() && this.x < curr.getRecX() + curr.getRecWidth()
                         && this.y > curr.getRecY() && this.y < curr.getRecY() + curr.getRecHeight() && !curr.isDestroyed){
@@ -67,6 +66,7 @@ public class Pop extends GameObject{
                 }
             }
         }
+        // Check power ups
         for(PowerUps curr : this.ref.getPowerUps()){
             if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestoyed){
                 life++;
@@ -75,6 +75,7 @@ public class Pop extends GameObject{
                 System.out.println(life);
             }
         }
+        // check big legs
         for(BigLegs curr : this.ref.getBigLegs()){
             if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestroyed){
                 bigLegs--;
@@ -82,7 +83,9 @@ public class Pop extends GameObject{
                 curr.isDestroyed = true;
             }
         }
+        // check solid blocks
         for(SolidBlocks curr : this.ref.getSolidBlocks()){
+            // check sides of solid blocks
             if(this.getPopHitBox().intersects(curr.getHitBox())){
                 if(this.x > curr.getRecX() && this.x < curr.getRecX() + curr.getRecWidth()
                         && this.y > curr.getRecY() && this.y < curr.getRecY() + curr.getRecHeight()){
@@ -92,6 +95,7 @@ public class Pop extends GameObject{
             moveY = -moveY;
         }
     }
+
     public void respawn(){
         SRR.katch.respawn();
         this.x = spawnX;
@@ -99,6 +103,7 @@ public class Pop extends GameObject{
     }
 
     public void checkBounds(){
+
         this.x += moveX;
 
         if(this.x > (GameConstants.GAME_SCREEN_WIDTH - 30) || this.x < 0)
@@ -109,11 +114,13 @@ public class Pop extends GameObject{
             life--;
             respawn();
         }
+
         this.y += moveY;
 
         this.hitBox.setLocation(x,y);
     }
 
+    // Getters
     public int getLife(){
         return life;
     }

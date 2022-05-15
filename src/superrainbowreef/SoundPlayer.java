@@ -13,6 +13,7 @@ public class SoundPlayer {
 
     public SoundPlayer(){
         soundURL[0] = SRR.class.getClassLoader().getResource("Music.wav");
+        soundURL[1] = SRR.class.getClassLoader().getResource("Sound_block.wav");
     }
     public void setFile(int x){
         try{
