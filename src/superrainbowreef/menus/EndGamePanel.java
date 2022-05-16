@@ -27,8 +27,9 @@ public class EndGamePanel extends JPanel{
         this.setLayout(null);
 
         start = new JButton("Restart Game");
+        start.setBackground(Color.orange);
         start.setFont(new Font("Courier New", Font.BOLD ,24));
-        start.setBounds(150,300,175,50);
+        start.setBounds(200,350,175,50);
         start.addActionListener((actionEvent -> {
             this.lf.setFrame("game");
         }));
@@ -36,7 +37,7 @@ public class EndGamePanel extends JPanel{
 
         exit = new JButton("Exit");
         exit.setFont(new Font("Courier New", Font.BOLD ,24));
-        exit.setBounds(150,400,175,50);
+        exit.setBounds(200,400,175,50);
         exit.addActionListener((actionEvent -> {
             this.lf.closeGame();
         }));

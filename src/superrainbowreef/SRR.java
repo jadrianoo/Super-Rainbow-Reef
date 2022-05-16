@@ -46,6 +46,8 @@ public class SRR extends JPanel implements Runnable {
         try {
             this.gameInitialize();
             this.resetGame();
+            // Play background music
+            playSound(0);
             while (true) {
                 this.tick++;
                 this.gameObjects.forEach(gameObject -> gameObject.update());
@@ -58,8 +60,8 @@ public class SRR extends JPanel implements Runnable {
                  * we will do this with by ending the game when drawn 2000 frames have been drawn
                  */
                 if(this.pop.getLife() <= 0 || this.pop.getBigLegs() <= 0){
-//                    stopSound();
                     this.lf.setFrame("end");
+                    stopSound();
                     return;
                 }
             }
@@ -94,8 +96,7 @@ public class SRR extends JPanel implements Runnable {
         this.gameObjects.add(pop);
 
         try {
-            // Play background music
-            playSound(0);
+
 
             InputStreamReader isr = new InputStreamReader(SRR.class.getClassLoader().getResourceAsStream("maps/map1"));
             BufferedReader mapReader = new BufferedReader(isr);
@@ -203,6 +204,7 @@ public class SRR extends JPanel implements Runnable {
     public void stopSound(){
         sound.stopClip();
     }
+
     public static void playEffects(int x){
         sound.setFile(x);
         sound.playClip();

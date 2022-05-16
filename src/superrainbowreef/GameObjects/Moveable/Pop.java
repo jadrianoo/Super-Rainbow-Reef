@@ -13,13 +13,14 @@ import superrainbowreef.SRR;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class Pop extends GameObject{
 
     public int x,y,spawnY, spawnX;
     public int score = 0;
     public int life = 1;
-    public int bigLegs = 2;
+    public int bigLegs = 4;
     public int moveX, moveY;
 
     boolean isMovingUp;
@@ -52,6 +53,7 @@ public class Pop extends GameObject{
     public void update() {
         checkBounds();
         updateMove();
+
     }
 
     public void updateMove(){
@@ -65,6 +67,7 @@ public class Pop extends GameObject{
                     score += 10;
                     moveY = -moveY;
                     curr.isDestroyed = true;
+                    updateGameObject(curr);
                 }
             }
         }
@@ -93,7 +96,7 @@ public class Pop extends GameObject{
                 life++;
                 moveY = -moveY;
                 curr.isDestoyed = true;
-                System.out.println(life);
+                updateGameObject(curr);
             }
         }
         // check big legs
@@ -102,7 +105,24 @@ public class Pop extends GameObject{
                 bigLegs--;
                 moveY = -moveY;
                 curr.isDestroyed = true;
+                updateGameObject(curr);
             }
+        }
+    }
+    private void updateGameObject(GameObject gameobject) {
+        try {
+            if (gameobject instanceof CoralBlocks) {
+                SRR.playEffects(1);
+            }
+            if (gameobject instanceof PowerUps) {
+                SRR.playEffects(1);
+            }
+            if (gameobject instanceof BigLegs) {
+                SRR.playEffects(2);
+            }
+
+        } catch (ConcurrentModificationException e) {
+            // indicate that concurrent modification was attempted
         }
     }
 

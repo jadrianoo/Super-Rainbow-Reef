@@ -14,6 +14,7 @@ public class SoundPlayer {
     public SoundPlayer(){
         soundURL[0] = SRR.class.getClassLoader().getResource("Music.wav");
         soundURL[1] = SRR.class.getClassLoader().getResource("Sound_block.wav");
+        soundURL[2] = SRR.class.getClassLoader().getResource("Sound_bigleg.wav");
     }
     public void setFile(int x){
         try{
@@ -31,6 +32,6 @@ public class SoundPlayer {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
     public void stopClip(){
-        clip.start();
+        clip.stop();
     }
 }
