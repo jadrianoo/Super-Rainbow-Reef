@@ -65,11 +65,11 @@ public class Katch extends Moveable{
     }
 
     public void moveRight(){
-        this.x += 4;
+        this.x += 3;
         this.hitBox.setLocation(x,y);
     }
     public void moveLeft(){
-        this.x -= 4;
+        this.x -= 3;
         this.hitBox.setLocation(x,y);
     }
 

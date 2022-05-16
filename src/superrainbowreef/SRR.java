@@ -51,14 +51,14 @@ public class SRR extends JPanel implements Runnable {
                 this.gameObjects.forEach(gameObject -> gameObject.update());
                 this.coralBlocks.forEach(coralBlocks -> coralBlocks.update());
                 this.repaint();   // redraw game
-                Thread.sleep(1000 / 144); //sleep for a few milliseconds
+                Thread.sleep(1000 / 288); //sleep for a few milliseconds
 
                 /*
                  * simulate an end game event
                  * we will do this with by ending the game when drawn 2000 frames have been drawn
                  */
                 if(this.pop.getLife() <= 0 || this.pop.getBigLegs() <= 0){
-                    stopSound();
+//                    stopSound();
                     this.lf.setFrame("end");
                     return;
                 }

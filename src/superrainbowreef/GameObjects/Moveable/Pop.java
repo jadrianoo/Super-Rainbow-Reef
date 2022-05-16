@@ -22,6 +22,8 @@ public class Pop extends GameObject{
     public int bigLegs = 2;
     public int moveX, moveY;
 
+    boolean isMovingUp;
+
     public Rectangle hitBox;
     private BufferedImage img;
     private SRR ref;
@@ -30,8 +32,8 @@ public class Pop extends GameObject{
         super(x,y,img);
         this.x = x;
         this.y = y;
-        moveX = 2;
-        moveY = 2;
+        moveX = 1;
+        moveY = 1;
         spawnY = 370;
         spawnX = 310;
         this.ref = ref;
@@ -66,6 +68,25 @@ public class Pop extends GameObject{
                 }
             }
         }
+        // check solid blocks
+        for(SolidBlocks curr : this.ref.getSolidBlocks()){
+            // check sides of solid blocks
+            if(this.getPopHitBox().intersects(curr.getHitBox())){
+                if(this.x > curr.getRecX() && this.x < curr.getRecX() + curr.getRecWidth()
+                        && this.y > curr.getRecY() && this.y < curr.getRecY() + curr.getRecHeight()){
+                    if(isMovingUp){
+                        this.y += moveY;
+                        moveY = -moveY;
+                    }if(!isMovingUp){
+                        this.y -= moveY;
+                        moveY = -moveY;
+                    }
+                }else {
+                    this.x -= moveX;
+                    moveX = -moveX;
+                }
+            }
+        }
         // Check power ups
         for(PowerUps curr : this.ref.getPowerUps()){
             if(this.getPopHitBox().intersects(curr.getHitBox()) && !curr.isDestoyed){
@@ -83,17 +104,6 @@ public class Pop extends GameObject{
                 curr.isDestroyed = true;
             }
         }
-        // check solid blocks
-        for(SolidBlocks curr : this.ref.getSolidBlocks()){
-            // check sides of solid blocks
-            if(this.getPopHitBox().intersects(curr.getHitBox())){
-                if(this.x > curr.getRecX() && this.x < curr.getRecX() + curr.getRecWidth()
-                        && this.y > curr.getRecY() && this.y < curr.getRecY() + curr.getRecHeight()){
-                    moveX = -moveX;
-                }
-            }
-            moveY = -moveY;
-        }
     }
 
     public void respawn(){
@@ -108,12 +118,15 @@ public class Pop extends GameObject{
 
         if(this.x > (GameConstants.GAME_SCREEN_WIDTH - 30) || this.x < 0)
             moveX = -moveX;
-        if(this.y < 0 || this.getPopHitBox().intersects(SRR.katch.getKatchHitBox()))
+        if(this.y < 0 || this.getPopHitBox().intersects(SRR.katch.getKatchHitBox())) {
             moveY = -moveY;
+            isMovingUp = true;
+        }
         if(this.y > (GameConstants.GAME_SCREEN_HEIGHT - 30)) {
             life--;
             respawn();
         }
+        isMovingUp = false;
 
         this.y += moveY;
 
