@@ -14,6 +14,7 @@ public class Resource {
         Resource.resources = new HashMap<>();
         try {
             Resource.resources.put("start", read(SRR.class.getClassLoader().getResource("Button_start.gif")));
+            Resource.resources.put("help", read(SRR.class.getClassLoader().getResource("Button_help.gif")));
             Resource.resources.put("end", read(SRR.class.getClassLoader().getResource("Button_quit.gif")));
             Resource.resources.put("background", read(SRR.class.getClassLoader().getResource("Background1.bmp")));
             Resource.resources.put("katch", read(SRR.class.getClassLoader().getResource("katch.gif")));

@@ -1,5 +1,6 @@
 package superrainbowreef.menus;
 
+import superrainbowreef.GameConstants;
 import superrainbowreef.Launcher;
 import superrainbowreef.Resource;
 
@@ -9,17 +10,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class StartMenuPanel extends JPanel {
+public class HelpMenuPanel extends JPanel {
     private BufferedImage menuBackground;
     private JButton start;
     private JButton exit;
-    private JButton help;
     private Launcher lf;
 
-    public StartMenuPanel(Launcher lf) {
+    public HelpMenuPanel(Launcher lf) {
         this.lf = lf;
         try {
-            menuBackground = ImageIO.read(this.getClass().getClassLoader().getResource("Title.gif"));
+            menuBackground = ImageIO.read(this.getClass().getClassLoader().getResource("Background1.bmp"));
         } catch (IOException e) {
             System.out.println("Error cant read menu background");
             e.printStackTrace();
@@ -31,33 +31,15 @@ public class StartMenuPanel extends JPanel {
         start = new JButton(new ImageIcon(Resource.getResourceImage("start")));
 //        start.setFont(new Font("Courier New", Font.BOLD ,24));
 //        start.setBounds(0,330,150,50);
-        start.setBounds(-20,330,150,50);
+        start.setBounds(230,400,150,50);
         start.setBorder(null);
         start.addActionListener((actionEvent -> {
             this.lf.setFrame("game");
         }));
 
 
-        exit = new JButton(new ImageIcon(Resource.getResourceImage("end")));
-        exit.setSize(new Dimension(200,100));
-        exit.setBorder(null);
-        exit.setBounds(370,330,150,50);
-        exit.addActionListener((actionEvent -> {
-            this.lf.closeGame();
-        }));
-
-        help = new JButton(new ImageIcon(Resource.getResourceImage("help")));
-        help.setSize(new Dimension(200,100));
-        help.setBorder(null);
-        help.setBounds(180,330,150,50);
-        help.addActionListener((actionEvent -> {
-            this.lf.setFrame("help");
-        }));
-
-
         this.add(start);
-        this.add(help);
-        this.add(exit);
+
 
     }
 
@@ -65,6 +47,15 @@ public class StartMenuPanel extends JPanel {
     public void paintComponent(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(this.menuBackground,0,0,null);
+        g2.setColor(Color.MAGENTA);
+        g2.setFont(new Font("Oswald", Font.BOLD, 20));
+        g2.drawString("Controls: ", 50, 100);
+        g2.drawString("Left Arrow Key< : Move Left ", 50, 120);
+        g2.drawString("Right Arrow Key > : Move Right ", 50, 140);
+        g2.drawString("Objective/Rules: ", 50, 200);
+        g2.drawString("Destroy all Big Legs!" , 50, 220);
+        g2.drawString("If lives reaches 0 game is over" , 50, 240);
     }
 
 }
+

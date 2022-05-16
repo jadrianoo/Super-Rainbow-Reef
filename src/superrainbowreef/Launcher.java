@@ -1,6 +1,7 @@
 package superrainbowreef;
 
 import superrainbowreef.menus.EndGamePanel;
+import superrainbowreef.menus.HelpMenuPanel;
 import superrainbowreef.menus.StartMenuPanel;
 
 import javax.swing.*;
@@ -38,6 +39,9 @@ public class Launcher {
      * JFrame used to store our main panel. We will also attach all event
      * listeners to this JFrame.
      */
+
+    private JPanel helpPanel;
+
     private JFrame jf;
     /*
      * CardLayout is used to manage our sub-panels. This is a layout manager
@@ -55,6 +59,7 @@ public class Launcher {
     private void initUIComponents(){
         this.mainPanel = new JPanel(); // create a new main panel
         this.startPanel = new StartMenuPanel(this); // create a new start panel
+        this.helpPanel = new HelpMenuPanel(this);
         this.gamePanel = new SRR(this); // create a new game panel
         this.gamePanel.gameInitialize(); // initialize game, but DO NOT start game
         this.endPanel = new EndGamePanel(this); // create a new end game pane;
@@ -64,6 +69,7 @@ public class Launcher {
         this.mainPanel.add(startPanel, "start"); //add the start panel to the main panel
         this.mainPanel.add(gamePanel, "game");   //add the game panel to the main panel
         this.mainPanel.add(endPanel, "end");    // add the end game panel to the main panel
+        this.mainPanel.add(helpPanel, "help");
         this.jf.add(mainPanel); // add the main panel to the JFrame
         this.setFrame("start"); // set the current panel to start panel
     }
@@ -83,6 +89,10 @@ public class Launcher {
                 (new Thread(this.gamePanel)).start();
                 break;
             case "end":
+                // set the size of the jFrame to the expected size for the end panel
+                this.jf.setSize(GameConstants.END_MENU_SCREEN_WIDTH,GameConstants.END_MENU_SCREEN_HEIGHT);
+                break;
+            case "help":
                 // set the size of the jFrame to the expected size for the end panel
                 this.jf.setSize(GameConstants.END_MENU_SCREEN_WIDTH,GameConstants.END_MENU_SCREEN_HEIGHT);
                 break;
