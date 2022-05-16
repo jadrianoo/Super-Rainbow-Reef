@@ -122,7 +122,7 @@ public class Pop extends GameObject{
             }
 
         } catch (ConcurrentModificationException e) {
-            // indicate that concurrent modification was attempted
+
         }
     }
 
