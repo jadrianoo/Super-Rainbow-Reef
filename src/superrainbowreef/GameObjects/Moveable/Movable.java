@@ -5,10 +5,10 @@ import superrainbowreef.GameObjects.GameObject;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Moveable extends GameObject {
+public class Movable extends GameObject {
     double speed;
 
-    public Moveable( int x, int y, BufferedImage img){
+    public Movable(int x, int y, BufferedImage img){
         super(x,y,img);
     }
 

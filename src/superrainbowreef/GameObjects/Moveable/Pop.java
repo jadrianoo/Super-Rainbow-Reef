@@ -20,7 +20,7 @@ public class Pop extends GameObject{
     public int x,y,spawnY, spawnX;
     public int score = 0;
     public int life = 1;
-    public int bigLegs = 4;
+    public int bigLegs = 2;
     public int moveX, moveY;
 
     boolean isMovingUp;

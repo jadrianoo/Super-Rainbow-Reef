@@ -1,14 +1,13 @@
 package superrainbowreef.GameObjects.Moveable;
 
 import superrainbowreef.GameConstants;
-import superrainbowreef.GameObjects.Unmoveable.Unbreakable.Wall;
 import superrainbowreef.Resource;
 import superrainbowreef.SRR;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Katch extends Moveable{
+public class Katch extends Movable {
     public int x,y, spawnX, spawnY;
     private BufferedImage img;
     private SRR ref;
