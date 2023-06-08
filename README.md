@@ -1,12 +1,23 @@
-# csc413-SecondGame
+# Super Rainbow Reef
 
-## Student Name  :  Justin Adriano 
-    
-## Student ID    : 921719692
+![image](./resources/SSR.png )
+
+## Objective
+* Destroy all big legs
+* Health power ups gives Katch more lives
+
+## Controls
+* Move left : left arrow key
+* Move right : right arrow key
+
+## How to build with intelliJ
+1. Set up project structure (File -> Project structure)
+2. In the artifacts tab, select JAR and from modules with dependencies
+3. Select the main class and apply all changes
+4. Build the project
+5. Build artifacts 
+6. Run the jar
 
 
-## src folder is to be used to store source code only.
 
-## resources folder is to be used to store the resources for your project only. This includes images, sounds, map text files, etc.
 
-## jar folder is used to store the built jar of your term-project. NO SOURCE CODE SHOULD BE IN THIS FOLDER. DOING SO WILL CAUSE POINTS TO BE DEDUCTED
